@@ -33,8 +33,7 @@ int main(int argc, char **argv) {
     int i;
 
     if (argc <= 1) {
-        fd = 0;
-        while ((size = read(fd, buf, BUF_SIZE)) > 0)
+        while ((size = read(0, buf, BUF_SIZE)) > 0)
             buf_write(1, buf, size);
     } else {
         for (i = 1; i < argc; i++) {
@@ -47,5 +46,5 @@ int main(int argc, char **argv) {
         }
     }
 
-    return(0);
+    return 0;
 }
