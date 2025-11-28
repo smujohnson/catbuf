@@ -23,14 +23,23 @@ int buf_write(int sock, char *buf, int size) {
         }
         offset += ret;
     }
+
     return size;
 }
 
 int main(int argc, char **argv) {
     int fd;
     ssize_t size;
-    char buf[BUF_SIZE];
+    void *buf;
+    long pagesize;
     int i;
+
+    pagesize = sysconf(_SC_PAGESIZE);
+
+    if (posix_memalign(&buf, pagesize, BUF_SIZE) != 0) {
+        fprintf(stderr, "buffer allocation error\n");
+        exit(1);
+    }
 
     if (argc <= 1) {
         while ((size = read(0, buf, BUF_SIZE)) > 0)
